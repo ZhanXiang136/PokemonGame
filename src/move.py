@@ -1,12 +1,17 @@
+import json
+
 class Move(object):
-    def __init__(self, name, accuracy, power, damage_class, type_, pp):
-        self.name = name
-        self.accuracy = accuracy
-        self.power = power
-        self.damage_class = damage_class
-        self.type = type_
-        self.pp = pp
-        self.current_pp = self.pp
+    def __init__(self, move_name):
+        with open('modules/move.json', "r") as pokemon_file:
+            move_obj_list = json.load(pokemon_file)
+            move = move_obj_list['results'][move_name]
+            self.name = move['name']
+            self.accuracy = move['accuracy']
+            self.power = move['power']
+            self.damage_class = move['damage_class']
+            self.type = move['type']
+            self.pp = move['pp']
+            self.current_pp = self.pp
 
     def use_move(self):
         if self.current_pp != 0:
