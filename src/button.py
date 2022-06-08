@@ -22,8 +22,8 @@ class Button(object):
         else:
             self.surface = pygame.Surface(self.size)
             self.bg = {'active': bg[0], 'inactive': bg[1]}
-            self.surface.fill(self.bg['inactive'])
             self.current_bg = self.bg['inactive']
+            self.surface.fill(self.current_bg)
 
         self.rect = pygame.Rect(pos[0], pos[1], self.size[0], self.size[1])
 
@@ -33,11 +33,16 @@ class Button(object):
 
     def setup_text_string(self, text, pos=(0,0)):
         '''
+        converts string to pygame text
         :param text: text to be displayed
         :param pos: position of text
         :return: None
         '''
         self.text = self.font.render(text, False, pygame.Color('Black'))
+        try:
+            self.surface.fill(self.current_bg)
+        except:
+            pass
         self.surface.blit(self.text, pos)
 
     def draw(self, screen):
@@ -58,14 +63,10 @@ class Button(object):
             return True
         return False
 
-    def inactive(self):
-        pass
-
 class TextButton(Button):
     def __init__(self, pos, size, text, font_size, bg, text_pos=(0, 0)):
         super(TextButton, self).__init__(pos, size, text, font_size, bg, text_pos)
         self.original_text = text
-        self.setup_text_string(self.text_string)
 
     def active(self, key):
         '''
@@ -89,25 +90,13 @@ class TextButton(Button):
         self.current_bg = self.bg['inactive']
         self.setup_text_string(self.text_string)
 
-    def setup_text_string(self, text, pos=(0,0)):
-        '''
-        :param text: text to be displayed
-        :param pos: position of text
-        :return: None
-        '''
-        self.text = self.font.render(self.text_string, False, pygame.Color('Black'))
-        self.surface = pygame.Surface(self.size)
-        self.surface.fill(self.current_bg)
-        self.surface.blit(self.text, pos)
-        self.rect = pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
-
     def click(self, coord):
         '''
         determines if button is clicked
         :param coord: coord of the mouse
         :return: if button is clicked
         '''
-        if self.rect.collidepoint(coord[0], coord[1]):
+        if super().click(coord):
             self.current_bg = self.bg['active']
             if self.text_string == self.original_text:
                 self.text_string = ""

@@ -128,7 +128,8 @@ class PokemonGame():
                                 active_button = display
                                 break
                             else:
-                                display.inactive()
+                                if isinstance(display, TextButton):
+                                    display.inactive()
                                 active_button = None
 
                 if isinstance(active_button, TextButton): #TextButton features
