@@ -36,16 +36,6 @@ class PokemonGame():
             'buttons': [self.name_button],
         }
 
-    def redraw_window(self):
-        '''
-        updates the screen
-        :return: None
-        '''
-        for key, displays in self.active_displays.items():
-            for display in displays:
-                display.draw(self.current_screen)
-        pygame.display.update()
-
     def change_to_battle_screen(self, name):
         '''
         changes the screen to battle screen
@@ -101,7 +91,6 @@ class PokemonGame():
             'buttons': [self.restart_button, self.winner_button],
         }
 
-
     def run(self):
         '''
         starts the game
@@ -156,6 +145,16 @@ class PokemonGame():
                             break
 
             self.redraw_window() #redraws the screen
+
+    def redraw_window(self):
+        '''
+        updates the screen
+        :return: None
+        '''
+        for key, displays in self.active_displays.items():
+            for display in displays:
+                display.draw(self.current_screen)
+        pygame.display.update()
 
     def load_info(self, text):
         '''
